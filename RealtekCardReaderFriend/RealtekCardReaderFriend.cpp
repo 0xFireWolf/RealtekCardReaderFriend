@@ -15,6 +15,8 @@
 
 static const char* kCardReaderReporterPath = "/System/Library/SystemProfiler/SPCardReaderReporter.spreporter";
 
+static const size_t kCardReaderReporterPathLength = strlen(kCardReaderReporterPath);
+
 // MARK: PCIe-based Card Reader
 
 // Function: SPCardReaderReporter::updateDictionary()
@@ -113,10 +115,10 @@ static const uint8_t kRealtekUCRBundleIdentifier[] =
 
 static inline bool matchReporterPath(const char* path)
 {
-    return strncmp(path, kCardReaderReporterPath, strlen(kCardReaderReporterPath)) == 0;
+    return strncmp(path, kCardReaderReporterPath, kCardReaderReporterPathLength) == 0;
 }
 
-static inline void patchReporter(const void* data, vm_size_t size)
+static void patchReporter(const void* data, vm_size_t size)
 {
     void* memory = const_cast<void*>(data);
     
