@@ -19,8 +19,7 @@ A Lilu plugin that makes System Information recognize your Realtek card reader a
 - [RealtekCardReader](https://github.com/0xFireWolf/RealtekCardReader) v0.9.5 or later*.
 
 #### Notes:
-- If your have a builtin USB card reader that works out of box but does not show up in System Information, you may try the other Lilu plugin [GenericCardReaderFriend](https://github.com/0xFireWolf/GenericCardReaderFriend).
-- In other words, your card reader is powered by neither `AppleUSBCardReader.kext` nor `RealtekCardReader.kext`.
+- If your have a builtin USB card reader that works out of box but does not show up in System Information, you may try the other Lilu plugin [GenericCardReaderFriend](https://github.com/0xFireWolf/GenericCardReaderFriend). In other words, your card reader is powered by neither `AppleUSBCardReader.kext` nor `RealtekCardReader.kext`.
 
 ## Support
 If you would like to support my work, please consider a donation.  
