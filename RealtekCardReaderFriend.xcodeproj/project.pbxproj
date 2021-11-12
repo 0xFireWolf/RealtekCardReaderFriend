@@ -209,6 +209,7 @@
 				D5096E9B26A0E5B70065BE70 /* Sources */,
 				D5096E9C26A0E5B70065BE70 /* Frameworks */,
 				D5096E9D26A0E5B70065BE70 /* Resources */,
+				D58DAFFA273DFAF500564716 /* Archive */,
 			);
 			buildRules = (
 			);
@@ -260,6 +261,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D58DAFFA273DFAF500564716 /* Archive */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Archive;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Get the latest hash\ncd \"$(PROJECT_DIR)\"\nHASH=`git log --pretty=format:'%h' -n 1`\n\n# Archive the kext\ncd \"${TARGET_BUILD_DIR}\"\nrm -rf *.zip\narchive=\"${PRODUCT_NAME}_${MODULE_VERSION}_${HASH}_$(echo $CONFIGURATION | tr /a-z/ /A-Z/).zip\"\nzip \"${archive}\" -r \"$FULL_PRODUCT_NAME\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D5096E9B26A0E5B70065BE70 /* Sources */ = {
