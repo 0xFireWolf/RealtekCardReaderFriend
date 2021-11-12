@@ -7,6 +7,7 @@ A Lilu plugin that makes System Information recognize your Realtek card reader a
 ![](Assets/Screenshot.png)
 
 ## Supported Systems
+- macOS Monterey
 - macOS Big Sur  
 - macOS Catalina  
 - macOS Mojave
