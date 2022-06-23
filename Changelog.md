@@ -1,5 +1,8 @@
 #  Changelog
 
+#### v1.0.3
+- Add support for macOS Ventura.
+
 #### v1.0.2
 - Recomplie the kext with Lilu v1.5.8 to fix the kernel panic of the general protection error.
 
