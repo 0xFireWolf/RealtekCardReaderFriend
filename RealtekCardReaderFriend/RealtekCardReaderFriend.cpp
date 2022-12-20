@@ -240,7 +240,7 @@ PluginConfiguration ADDPR(config) =
     arrsize(bootargDebug),
     bootargBeta,
     arrsize(bootargBeta),
-    KernelVersion::Mojave,
+    KernelVersion::HighSierra,
     KernelVersion::Ventura,
     start
 };
