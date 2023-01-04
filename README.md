@@ -12,6 +12,7 @@ A Lilu plugin that makes System Information recognize your Realtek card reader a
 - macOS Big Sur  
 - macOS Catalina  
 - macOS Mojave
+- macOS High Sierra
 
 #### Notes:
 - Other systems are not tested yet.
