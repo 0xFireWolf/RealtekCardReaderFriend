@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+env:
+  PROJECT_TYPE: KEXT
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-13
+    env:
+      JOB_TYPE: BUILD
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4.2.2
+        with:
+          repository: acidanthera/MacKernelSDK
+          path: MacKernelSDK
+      - name: CI Bootstrap
+        run: |
+          src=$(/usr/bin/curl -Lfs https://raw.githubusercontent.com/acidanthera/ocbuild/master/ci-bootstrap.sh) && eval "$src" || exit 1
+      - name: Lilu Bootstrap
+        run: |
+          src=$(/usr/bin/curl -Lfs https://raw.githubusercontent.com/acidanthera/Lilu/master/Lilu/Scripts/bootstrap.sh) && eval "$src" || exit 1
+
+      - run: xcodebuild -jobs 1 -configuration Debug
+      - run: xcodebuild -jobs 1 -configuration Release
+
+      - name: Upload to Artifacts
+        uses: actions/upload-artifact@v4.5.0
+        with:
+          name: Artifacts
+          path: build/*/*.zip
+      - name: Upload to Release
+        if: github.event_name == 'release'
+        uses: svenstaro/upload-release-action@v2.9.0
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/*/*.zip
+          tag: ${{ github.ref }}
+          file_glob: true
+          
+    # Analyze the kext
+    analyze:
+        name: Analyze
+        runs-on: macos-13
+        steps:
+            # Checkout the card reader repo
+            - uses: actions/checkout@v4.2.2
+            # Checkout the MacKernelSDK repo
+            - uses: actions/checkout@v4.2.2
+              with:
+                repository: acidanthera/MacKernelSDK
+                path: MacKernelSDK
+            # Analyze the driver
+            - run: xcodebuild analyze -quiet -scheme RealtekCardReaderFriend -configuration Debug CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR="$(pwd)/clang-analyze" && [ "$(find clang-analyze -name "*.html")" = "" ]
+            - run: xcodebuild analyze -quiet -scheme RealtekCardReaderFriend -configuration Release CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR="$(pwd)/clang-analyze" && [ "$(find clang-analyze -name "*.html")" = "" ]
