@@ -1,5 +1,8 @@
 #  Changelog
 
+#### v1.0.5
+- Add support for macOS Sonoma, Sequoia, and Tahoe. RealtekCardReader v0.9.8 is needed to fix the compatibility with macOS Sonoma 14.4 and later.
+
 #### v1.0.4
 - Recompile the kext with the latest Lilu v1.6.2.
 
