@@ -11,6 +11,10 @@ on:
     release:
         types: [published]
 
+env:
+    # Needed by Acidanthera's CI Bootstrap script
+    PROJECT_TYPE: KEXT
+
 jobs:
     # Build the kext
     build:
