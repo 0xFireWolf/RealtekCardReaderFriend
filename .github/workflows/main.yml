@@ -20,6 +20,9 @@ jobs:
     build:
         name: Build
         runs-on: macos-latest
+        env:
+            # Needed by Acidanthera's CI Bootstrap script
+            JOB_TYPE: BUILD
         steps:
             # Checkout the repo along with its submodules
             - name: Check out the repo along with its submodules
