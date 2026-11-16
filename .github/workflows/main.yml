@@ -1,0 +1,46 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+    # Trigger the workflow on push or pull request events 
+    push:
+    pull_request:
+    # Allow to run this workflow manually from the Actions tab
+    workflow_dispatch:
+    # Run the workflow for published releases
+    release:
+        types: [published]
+
+jobs:
+    # Build the kext
+    build:
+        name: Build
+        runs-on: macos-latest
+        steps:
+            # Checkout the repo along with its submodules
+            - name: Check out the repo along with its submodules
+              uses: actions/checkout@v7
+              with:
+                  submodules: 'true'
+            # Build the Lilu kext
+            - name: Build the Lilu kext
+              run: |
+                  src=$(/usr/bin/curl -Lfs https://raw.githubusercontent.com/acidanthera/ocbuild/master/ci-bootstrap.sh) && eval "$src" || exit 1
+                  src=$(/usr/bin/curl -Lfs https://raw.githubusercontent.com/acidanthera/Lilu/master/Lilu/Scripts/bootstrap.sh) && eval "$src" || exit 1
+            # Build the driver in DEBUG mode
+            - name: Build the driver in DEBUG mode
+              run: xcodebuild -jobs 3 -configuration Debug
+            # Upload the driver built in DEBUG mode to Artifacts
+            - name: Upload the DEBUG driver to Artifacts
+              uses: actions/upload-artifact@v7
+              with:
+                  name: Artifacts-Debug
+                  path: build/*/*_DEBUG.zip
+            # Build the driver in RELEASE mode
+            - name: Build the driver in RELEASE mode
+              run: xcodebuild -jobs 3 -configuration Release
+            - name: Upload the DEBUG driver to Artifacts
+              uses: actions/upload-artifact@v7
+              with:
+                  name: Artifacts-Release
+                  path: build/*/*_RELEASE.zip
